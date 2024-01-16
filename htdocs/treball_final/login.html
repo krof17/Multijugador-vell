@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        
+        <!-- dades tècniques de la pàgina -->
+        <meta charset="utf-8">
+        
+        <title>Inici de sessió</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"><!-- per a dispositius mòbils -->
+        <meta name="author" content="Alex, Sergi, Krof (UdG)">
+        <!-- estètica de la pàgina -->
+        <link rel="icon" href="favicon.png">
+        <link rel="stylesheet" href="login.css">
+    </head>
+    <body>
+        <section id="login-section">
+            <header id="PartPrincipal" class="col-xs-12">
+                <img src="favicon.png">
+                <h2 id="inici">Inici de sessió</h2>
+            </header>
+            <div class="col-xs-12" id="Requadre_camps">
+                    <div class="camps">
+                        <label id="correu" for="correu">Correu</label>
+                        <input class="input_box" type="email" id="email" placeholder="Email">
+                    </div>
+                    <div class="camps">
+                        <label id="contrasenya" for="login_password">Contrasenya</label>
+                        <div class="input_box">
+                            <input type="password" id="password" placeholder="Contrasenya">
+                            <button id="show_password" class="btn btn-primary" type="button" onclick="mostrarPassword()"> <span class="fa fa-eye-slash icon"></span> </button>
+                        </div>
+                    </div>
+                <div class="button_container">
+                    <button class="btn btn-primary" onclick="login()">Login</button>
+                    <button class="btn btn-primary" onclick="showRegistrationForm()">Registrar-se</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="registration-section" style="display: none;">
+            <header id="PartPrincipal" class="col-xs-12">
+                <img src="favicon.png">
+                <h2 id="inici">Registrar-se</h2>
+            </header>
+            <div class="col-xs-12" id="Requadre_camps">
+                <div class="camps">
+                    <label id="usuari" for="login_username">Nom d'usuari</label>
+                    <input class="input_box" type="text" id="full_name" placeholder="Nom usuari">
+                </div>
+                <div class="camps">
+                    <label id="correu" for="correu">Correu</label>
+                    <input class="input_box" type="email" id="email_register" placeholder="Email">
+                </div>
+				<div class="camps">
+                    <label id="telefon" for="telefon">Telèfon</label>
+                    <input class="input_box" type="phone" id="phone_register" placeholder="Phone">
+                </div>
+				
+				<div id="recaptcha-container"></div>
+				
+                <div class="camps">
+                    <label id="contrasenya" for="login_password">Contrasenya</label>
+                    <div class="input_box">
+                        <input type="password" id="password_register" placeholder="Contrasenya">
+                        <button id="show_password_2" class="btn btn-primary" type="button" onclick="mostrarPassword_2()"> <span class="fa fa-eye-slash icon2"></span> </button>
+                    </div>
+                </div>
+                <div class="camps">
+                    <label id="contrasenya" for="login_password">Repeteix la Contrasenya</label>
+                    <div class="input_box">
+                        <input type="password" id="password_repetida" placeholder="Contrasenya">
+                        <button id="show_password_3" class="btn btn-primary" type="button" onclick="mostrarPassword_3()"> <span class="fa fa-eye-slash icon3"></span> </button>
+                    </div>
+                </div>
+                <div class="button_container">
+                    <button class="btn btn-primary" onclick="register()">Registrar</button>
+                    <button class="btn btn-primary" onclick="showLoginForm()">Tornar al Login</button>
+                </div>
+            </div>
+        </section>
+    </body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+	    // TODO: Add SDKs for Firebase products that you want to use
+	    // https://firebase.google.com/docs/web/setup#available-libraries
+
+	    // Your web app's Firebase configuration
+	    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	    const firebaseConfig = {
+			apiKey: "AIzaSyAPzgTP193Q-phW-975dpsnXQWQFHea0Zc",
+			authDomain: "demofirebase2fa.firebaseapp.com",
+			databaseURL: "https://demofirebase2fa-default-rtdb.europe-west1.firebasedatabase.app",
+			projectId: "demofirebase2fa",
+			storageBucket: "demofirebase2fa.appspot.com",
+			messagingSenderId: "14497262874",
+			appId: "1:14497262874:web:5ae0dd0f7212f04cb790a3",
+			measurementId: "G-SMKE13F751"
+		};
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script type="text/javascript">
+        function showRegistrationForm() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('registration-section').style.display = 'block';
+        }
+
+        function showLoginForm() {
+            document.getElementById('registration-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+        function mostrarPassword(){
+            var contrasenya = document.getElementById("password");
+            if(contrasenya.type == "password"){
+                contrasenya.type = "text";
+                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+            }
+            else{
+                contrasenya.type = "password";
+                $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+            }
+        }
+        function mostrarPassword_2(){
+            var contrasenya_2 = document.getElementById("password_register");
+            if(contrasenya_2.type == "password"){
+                contrasenya_2.type = "text";
+                $('.icon2').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+            }
+            else{
+                contrasenya_2.type = "password";
+                $('.icon2').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+            }
+        }  
+        function mostrarPassword_3(){
+            var contrasenya_3 = document.getElementById("password_repetida");
+            if(contrasenya_3.type == "password"){
+                contrasenya_3.type = "text";
+                $('.icon3').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+            }
+            else{
+                contrasenya_3.type = "password";
+                $('.icon3').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+            }
+        } 
+            
+        $(document).ready(function () {
+            $('#ShowPassword').click(function () {
+                $('#Password').attr('type', $(this).is(':checked') ? 'text' : 'password');
+            });
+        });
+    </script>
+    <script src="login.js"></script>
+
+</html>

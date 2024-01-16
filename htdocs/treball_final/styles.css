@@ -1,0 +1,126 @@
+/* {
+  box-sizing:border-box;
+}*/
+
+html, body {
+  background-color: #9afeb1;
+    font-family: cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.joc { 
+  position: relative;
+  width: 545px;
+  height: 275px;
+  background: url(images/map.png) no-repeat no-repeat;
+  z-index: -1px;
+  transform: scale(2);
+  image-rendering: pixelated;
+}
+
+.info_jugador {
+  position: absolute;
+  top: 5px;
+  left: 40%;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"],
+button {
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 18px;
+  height: 44px;
+  border-radius: 4px;
+  outline: 0;
+}
+
+input[type="text"] {
+  outline: 0;
+  padding-left: 0.5em;
+  border: 3px solid #222034;
+  width: 150px;
+  text-transform: uppercase;
+}
+input[type="text"]:focus {
+  border-color: #f000ff;
+}
+
+button {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  background: #59ff5a;
+  border: 0;
+  border-bottom: 2px solid #1e830b;
+  cursor: pointer;
+}
+button:active {
+  position: relative;
+  top: 1px;
+}
+
+/* Characters */
+.grid-cell {
+  position: absolute;
+  width: 14px;
+  height: 13px;
+}
+
+.Character {
+  transition: transform 0.4s;
+}
+
+.Character_sprite {
+  overflow: hidden;
+  top: 0px;
+  background: url(images/personatge_1.png);
+}
+
+.Character[data-color="vermell"] .Character_sprite {
+  background: url(images/personatge_2.png);
+  background-position-y: 0px;
+}
+
+.Nom_personatge {
+  position: absolute;
+  top: -12px;
+  left: -5px;
+  font-size: 5px;
+  padding: 1px 2px 1px;
+  border-radius: 3px;
+  background: #0004ff;
+  color: white;
+  white-space: nowrap;
+}
+
+.Titol_Nom {
+  text-align: center;
+  color: red;
+}
+
+.Guanyador{
+  color: #1700ff;
+  z-index: 1000;
+  position: fixed;
+}
+
+.Monedes {
+  margin: 1px;
+  color: gold;
+}
+
+/* Coins */
+.Coin_sprite {
+  background: url(images/coin.png) no-repeat no-repeat;
+  animation: coinFloat 0.8s linear infinite alternate-reverse;
+}
+@keyframes coinFloat {
+  from { transform: translateY(0) }
+  to { transform: translateY(5px) }
+}
